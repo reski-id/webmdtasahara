@@ -14,18 +14,10 @@ class KelasController extends Controller
      */
     public function index()
     {
-        //
+        $kelas = Kelas::all();
+        return response()->json($kelas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +27,16 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kelas = new Kelas;
+
+        $kelas->kode_kelas = $request->kode_kelas;
+        $kelas->nama_kelas = $request->nama_kelas;
+
+        $kelas->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
@@ -44,20 +45,18 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show($id)
     {
-        //
-    }
+        $kelas = Kelas::find($id);
+        if(!$kelas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Kelas $kelas)
-    {
-        //
+        return response()->json($kelas);
+
     }
 
     /**
@@ -67,9 +66,27 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, $id)
     {
-        //
+        $kelas = Kelas::find($id);
+        if(!$kelas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kelas->kode_kelas = $request->kode_kelas;
+        $kelas->nama_kelas = $request->nama_kelas;
+
+        $kelas->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
+
+
+
     }
 
     /**
@@ -78,8 +95,23 @@ class KelasController extends Controller
      * @param  \App\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
-        //
+
+        $kelas = Kelas::find($id);
+        if(!$kelas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kelas->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

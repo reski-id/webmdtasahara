@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Absen;
 use Illuminate\Http\Request;
+use League\CommonMark\Inline\Element\AbstractWebResource;
 
 class AbsenController extends Controller
 {
@@ -14,18 +15,10 @@ class AbsenController extends Controller
      */
     public function index()
     {
-        //
+        $absen = Absen::all();
+        return response()->json($absen);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +28,17 @@ class AbsenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $absen = new Absen;
+
+        $absen->TglAbsen = $request->TglAbsen;
+        $absen->nis = $request->nis;
+        $absen->KetAbsen = $request->KetAbsen;
+
+        $absen->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
@@ -44,20 +47,18 @@ class AbsenController extends Controller
      * @param  \App\Absen  $absen
      * @return \Illuminate\Http\Response
      */
-    public function show(Absen $absen)
+    public function show($id)
     {
-        //
-    }
+        $absen = Absen::find($id);
+        if(!$absen){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Absen  $absen
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Absen $absen)
-    {
-        //
+        return response()->json($absen);
+
     }
 
     /**
@@ -67,9 +68,25 @@ class AbsenController extends Controller
      * @param  \App\Absen  $absen
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Absen $absen)
+    public function update(Request $request, $id)
     {
-        //
+        $absen = Absen::find($id);
+        if(!$absen){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $absen->TglAbsen = $request->TglAbsen;
+        $absen->nis = $request->nis;
+        $absen->KetAbsen = $request->KetAbsen;
+
+        $absen->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
@@ -78,8 +95,23 @@ class AbsenController extends Controller
      * @param  \App\Absen  $absen
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Absen $absen)
+    public function destroy($id)
     {
-        //
+
+        $absen = Absen::find($id);
+        if(!$absen){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $absen->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

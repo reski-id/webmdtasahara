@@ -14,18 +14,10 @@ class PelajaranController extends Controller
      */
     public function index()
     {
-        //
+        $Pelajaran = Pelajaran::all();
+        return response()->json($Pelajaran);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,88 @@ class PelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Pelajaran = new Pelajaran;
+
+        $Pelajaran->KodePljrn = $request->KodePljrn;
+        $Pelajaran->NamaPljrn = $request->NamaPljrn;
+
+        $Pelajaran->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pelajaran  $pelajaran
+     * @param  \App\Pelajaran  $Pelajaran
      * @return \Illuminate\Http\Response
      */
-    public function show(Pelajaran $pelajaran)
+    public function show($id)
     {
-        //
-    }
+        $Pelajaran = Pelajaran::find($id);
+        if(!$Pelajaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Pelajaran  $pelajaran
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pelajaran $pelajaran)
-    {
-        //
+        return response()->json($Pelajaran);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pelajaran  $pelajaran
+     * @param  \App\Pelajaran  $Pelajaran
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pelajaran $pelajaran)
+    public function update(Request $request, $id)
     {
-        //
+        $Pelajaran = Pelajaran::find($id);
+        if(!$Pelajaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Pelajaran->KodePljrn = $request->KodePljrn;
+        $Pelajaran->NamaPljrn = $request->NamaPljrn;
+
+        $Pelajaran->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pelajaran  $pelajaran
+     * @param  \App\Pelajaran  $Pelajaran
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pelajaran $pelajaran)
+    public function destroy($id)
     {
-        //
+
+        $Pelajaran = Pelajaran::find($id);
+        if(!$Pelajaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Pelajaran->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

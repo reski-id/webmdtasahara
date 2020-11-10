@@ -14,18 +14,10 @@ class PelanggaranController extends Controller
      */
     public function index()
     {
-        //
+        $Pelanggaran = Pelanggaran::all();
+        return response()->json($Pelanggaran);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,96 @@ class PelanggaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Pelanggaran = new Pelanggaran;
+
+        $Pelanggaran->tanggal = $request->tanggal;
+        $Pelanggaran->nis = $request->nis;
+        $Pelanggaran->jenispelanggara = $request->jenispelanggara;
+        $Pelanggaran->keterangan = $request->keterangan;
+        $Pelanggaran->solusi = $request->solusi;
+        $Pelanggaran->proses = $request->proses;
+
+        $Pelanggaran->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pelanggaran  $pelanggaran
+     * @param  \App\Pelanggaran  $Pelanggaran
      * @return \Illuminate\Http\Response
      */
-    public function show(Pelanggaran $pelanggaran)
+    public function show($id)
     {
-        //
-    }
+        $Pelanggaran = Pelanggaran::find($id);
+        if(!$Pelanggaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Pelanggaran  $pelanggaran
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pelanggaran $pelanggaran)
-    {
-        //
+        return response()->json($Pelanggaran);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pelanggaran  $pelanggaran
+     * @param  \App\Pelanggaran  $Pelanggaran
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pelanggaran $pelanggaran)
+    public function update(Request $request, $id)
     {
-        //
+        $Pelanggaran = Pelanggaran::find($id);
+        if(!$Pelanggaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Pelanggaran->tanggal = $request->tanggal;
+        $Pelanggaran->nis = $request->nis;
+        $Pelanggaran->jenispelanggara = $request->jenispelanggara;
+        $Pelanggaran->keterangan = $request->keterangan;
+        $Pelanggaran->solusi = $request->solusi;
+        $Pelanggaran->proses = $request->proses;
+
+        $Pelanggaran->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pelanggaran  $pelanggaran
+     * @param  \App\Pelanggaran  $Pelanggaran
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pelanggaran $pelanggaran)
+    public function destroy($id)
     {
-        //
+
+        $Pelanggaran = Pelanggaran::find($id);
+        if(!$Pelanggaran){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Pelanggaran->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

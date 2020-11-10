@@ -19,13 +19,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resources([
-    'kelompoksubuh' => 'KlmpsubuhController',
+    'klmpksubuh' => 'KlmpsubuhController',
     'absen' => 'AbsenController',
     'absensubuh' => 'AbsensubuhController',
     'acara' => 'AcaraController',
     'photo' => 'PhotoController',
     'guru' => 'GuruController',
-    'klakademik' => 'KalenderAkademisController',
+    'klakademik' => 'KalenderAkademikController',
     'kas' => 'KasController',
     'kelas' => 'KelasController',
     'kriteriapenalquran' => 'KriteriaPenilaianquranController',

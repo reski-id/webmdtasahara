@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Kriteria_penilaianquran;
+use App\KriteriaPenilaianquran;
 use Illuminate\Http\Request;
 
 class KriteriaPenilaianquranController extends Controller
@@ -14,18 +14,10 @@ class KriteriaPenilaianquranController extends Controller
      */
     public function index()
     {
-        //
+        $kriteria = KriteriaPenilaianquran::all();
+        return response()->json($kriteria);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,91 @@ class KriteriaPenilaianquranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kriteria = new KriteriaPenilaianquran;
+
+        $kriteria->kdpenilai = $request->kdpenilai;
+        $kriteria->kriteria = $request->kriteria;
+
+        $kriteria->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Kriteria_penilaianquran  $kriteria_penilaianquran
+     * @param  \App\KriteriaPenilaianquran  $kriteria
      * @return \Illuminate\Http\Response
      */
-    public function show(Kriteria_penilaianquran $kriteria_penilaianquran)
+    public function show($id)
     {
-        //
-    }
+        $kriteria = KriteriaPenilaianquran::find($id);
+        if(!$kriteria){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Kriteria_penilaianquran  $kriteria_penilaianquran
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Kriteria_penilaianquran $kriteria_penilaianquran)
-    {
-        //
+        return response()->json($kriteria);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Kriteria_penilaianquran  $kriteria_penilaianquran
+     * @param  \App\KriteriaPenilaianquran  $kriteria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kriteria_penilaianquran $kriteria_penilaianquran)
+    public function update(Request $request, $id)
     {
-        //
+        $kriteria = KriteriaPenilaianquran::find($id);
+        if(!$kriteria){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kriteria->kdpenilai = $request->kdpenilai;
+        $kriteria->kriteria = $request->kriteria;
+
+        $kriteria->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
+
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Kriteria_penilaianquran  $kriteria_penilaianquran
+     * @param  \App\KriteriaPenilaianquran  $kriteria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kriteria_penilaianquran $kriteria_penilaianquran)
+    public function destroy($id)
     {
-        //
+
+        $kriteria = KriteriaPenilaianquran::find($id);
+        if(!$kriteria){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kriteria->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

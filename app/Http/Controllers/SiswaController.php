@@ -14,18 +14,10 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        //
+        $Siswa = Siswa::all();
+        return response()->json($Siswa);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,98 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Siswa = new Siswa;
+
+        $Siswa->nis = $request->nis;
+        $Siswa->Nama = $request->Nama;
+        $Siswa->JenisKelamin = $request->JenisKelamin;
+        $Siswa->TempatLahir = $request->TempatLahir;
+        $Siswa->TanggalLahir = $request->TanggalLahir;
+        $Siswa->Agama = $request->Agama;
+        $Siswa->Alamat = $request->Alamat;
+
+        $Siswa->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $Siswa
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
-        //
-    }
+        $Siswa = Siswa::find($id);
+        if(!$Siswa){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Siswa $siswa)
-    {
-        //
+        return response()->json($Siswa);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $Siswa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
-        //
+        $Siswa = Siswa::find($id);
+        if(!$Siswa){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Siswa->nis = $request->nis;
+        $Siswa->Nama = $request->Nama;
+        $Siswa->JenisKelamin = $request->JenisKelamin;
+        $Siswa->TempatLahir = $request->TempatLahir;
+        $Siswa->TanggalLahir = $request->TanggalLahir;
+        $Siswa->Agama = $request->Agama;
+        $Siswa->Alamat = $request->Alamat;
+
+        $Siswa->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $Siswa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Siswa $siswa)
+    public function destroy($id)
     {
-        //
+
+        $Siswa = Siswa::find($id);
+        if(!$Siswa){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Siswa->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

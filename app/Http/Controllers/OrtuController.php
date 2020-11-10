@@ -14,18 +14,10 @@ class OrtuController extends Controller
      */
     public function index()
     {
-        //
+        $Ortu = Ortu::all();
+        return response()->json($Ortu);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,100 @@ class OrtuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Ortu = new Ortu;
+
+        $Ortu->Nama = $request->Nama;
+        $Ortu->JenisKelamin = $request->JenisKelamin;
+        $Ortu->TempatLahir = $request->TempatLahir;
+        $Ortu->Pendidikan = $request->Pendidikan;
+        $Ortu->TanggalLahir = $request->TanggalLahir;
+        $Ortu->Agama = $request->Agama;
+        $Ortu->Alamat = $request->Alamat;
+        $Ortu->NoHp = $request->NoHp;
+
+        $Ortu->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ortu  $ortu
+     * @param  \App\Ortu  $Ortu
      * @return \Illuminate\Http\Response
      */
-    public function show(Ortu $ortu)
+    public function show($id)
     {
-        //
-    }
+        $Ortu = Ortu::find($id);
+        if(!$Ortu){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ortu  $ortu
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ortu $ortu)
-    {
-        //
+        return response()->json($Ortu);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ortu  $ortu
+     * @param  \App\Ortu  $Ortu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ortu $ortu)
+    public function update(Request $request, $id)
     {
-        //
+        $Ortu = Ortu::find($id);
+        if(!$Ortu){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Ortu->Nama = $request->Nama;
+        $Ortu->JenisKelamin = $request->JenisKelamin;
+        $Ortu->TempatLahir = $request->TempatLahir;
+        $Ortu->Pendidikan = $request->Pendidikan;
+        $Ortu->TanggalLahir = $request->TanggalLahir;
+        $Ortu->Agama = $request->Agama;
+        $Ortu->Alamat = $request->Alamat;
+        $Ortu->NoHp = $request->NoHp;
+
+        $Ortu->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Ortu  $ortu
+     * @param  \App\Ortu  $Ortu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ortu $ortu)
+    public function destroy($id)
     {
-        //
+
+        $Ortu = Ortu::find($id);
+        if(!$Ortu){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Ortu->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

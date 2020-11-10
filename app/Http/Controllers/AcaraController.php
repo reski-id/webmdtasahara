@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Acara;
 use Illuminate\Http\Request;
 
+
 class AcaraController extends Controller
 {
     /**
@@ -14,18 +15,10 @@ class AcaraController extends Controller
      */
     public function index()
     {
-        //
+        $Acara = Acara::all();
+        return response()->json($Acara);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +28,92 @@ class AcaraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Acara = new Acara;
+
+        $Acara->tanggal = $request->tanggal;
+        $Acara->acara = $request->acara;
+        $Acara->lokasi = $request->lokasi;
+
+        $Acara->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Acara  $acara
+     * @param  \App\Acara  $Acara
      * @return \Illuminate\Http\Response
      */
-    public function show(Acara $acara)
+    public function show($id)
     {
-        //
-    }
+        $Acara = Acara::find($id);
+        if(!$Acara){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Acara  $acara
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Acara $acara)
-    {
-        //
+        return response()->json($Acara);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Acara  $acara
+     * @param  \App\Acara  $Acara
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Acara $acara)
+    public function update(Request $request, $id)
     {
-        //
+        $Acara = Acara::find($id);
+        if(!$Acara){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Acara->tanggal = $request->tanggal;
+        $Acara->acara = $request->acara;
+        $Acara->lokasi = $request->lokasi;
+        $Acara->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
+
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Acara  $acara
+     * @param  \App\Acara  $Acara
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Acara $acara)
+    public function destroy($id)
     {
-        //
+
+        $Acara = Acara::find($id);
+        if(!$Acara){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Acara->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

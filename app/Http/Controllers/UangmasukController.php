@@ -14,18 +14,10 @@ class UangmasukController extends Controller
      */
     public function index()
     {
-        //
+        $Uangmasuk = Uangmasuk::all();
+        return response()->json($Uangmasuk);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +27,90 @@ class UangmasukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Uangmasuk = new Uangmasuk;
+
+        $Uangmasuk->tanggal = $request->tanggal;
+        $Uangmasuk->jumlah= $request->jumlah;
+        $Uangmasuk->keterangan = $request->keterangan;
+
+        $Uangmasuk->save();
+        return response()->json([
+            'Stjumlahatus' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Uangmasuk  $uangmasuk
+     * @param  \App\Uangmasuk  $Uangmasuk
      * @return \Illuminate\Http\Response
      */
-    public function show(Uangmasuk $uangmasuk)
+    public function show($id)
     {
-        //
-    }
+        $Uangmasuk = Uangmasuk::find($id);
+        if(!$Uangmasuk){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Uangmasuk  $uangmasuk
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Uangmasuk $uangmasuk)
-    {
-        //
+        return response()->json($Uangmasuk);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Uangmasuk  $uangmasuk
+     * @param  \App\Uangmasuk  $Uangmasuk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Uangmasuk $uangmasuk)
+    public function update(Request $request, $id)
     {
-        //
+        $Uangmasuk = Uangmasuk::find($id);
+        if(!$Uangmasuk){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Uangmasuk->tanggal = $request->tanggal;
+        $Uangmasuk->jumlah = $request->jumlah;
+        $Uangmasuk->keterangan = $request->keterangan;
+
+        $Uangmasuk->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Uangmasuk  $uangmasuk
+     * @param  \App\Uangmasuk  $Uangmasuk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Uangmasuk $uangmasuk)
+    public function destroy($id)
     {
-        //
+
+        $Uangmasuk = Uangmasuk::find($id);
+        if(!$Uangmasuk){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Uangmasuk->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

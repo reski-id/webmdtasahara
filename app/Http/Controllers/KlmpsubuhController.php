@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Klmpsubuh;
 use Illuminate\Http\Request;
+use League\CommonMark\Inline\Element\AbstractWebResource;
 
 class KlmpsubuhController extends Controller
 {
@@ -14,18 +15,10 @@ class KlmpsubuhController extends Controller
      */
     public function index()
     {
-        //
+        $Klmpsubuh = Klmpsubuh::all();
+        return response()->json($Klmpsubuh);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,51 +28,91 @@ class KlmpsubuhController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Klmpsubuh = new Klmpsubuh;
+
+        $Klmpsubuh->nama_kelompok = $request->nama_kelompok;
+
+        $Klmpsubuh->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
+     * `id`,
+  `nama_kelompok`,
      * Display the specified resource.
      *
-     * @param  \App\Klmpsubuh  $klmpsubuh
+     * @param  \App\Klmpsubuh  $Klmpsubuh
      * @return \Illuminate\Http\Response
      */
-    public function show(Klmpsubuh $klmpsubuh)
+    public function show($id)
     {
-        //
-    }
+        $Klmpsubuh = Klmpsubuh::find($id);
+        if(!$Klmpsubuh){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Klmpsubuh  $klmpsubuh
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Klmpsubuh $klmpsubuh)
-    {
-        //
+        return response()->json($Klmpsubuh);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Klmpsubuh  $klmpsubuh
+     * @param  \App\Klmpsubuh  $Klmpsubuh
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Klmpsubuh $klmpsubuh)
+    public function update(Request $request, $id)
     {
-        //
+        $Klmpsubuh = Klmpsubuh::find($id);
+        if(!$Klmpsubuh){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Klmpsubuh->nama_kelompok = $request->nama_kelompok;
+
+        $Klmpsubuh->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
+
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Klmpsubuh  $klmpsubuh
+     * @param  \App\Klmpsubuh  $Klmpsubuh
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Klmpsubuh $klmpsubuh)
+    public function destroy($id)
     {
-        //
+
+        $Klmpsubuh = Klmpsubuh::find($id);
+        if(!$Klmpsubuh){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $Klmpsubuh->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

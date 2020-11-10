@@ -14,18 +14,10 @@ class KasController extends Controller
      */
     public function index()
     {
-        //
+        $kas = Kas::all();
+        return response()->json($kas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +27,18 @@ class KasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kas = new Kas;
+
+        $kas->keterangan = $request->keterangan;
+        $kas->tgl = $request->tgl;
+        $kas->jumlah = $request->jumlah;
+        $kas->jenis = $request->jenis;
+
+        $kas->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil disimpan'
+        ],201);
     }
 
     /**
@@ -44,20 +47,18 @@ class KasController extends Controller
      * @param  \App\Kas  $kas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kas $kas)
+    public function show($id)
     {
-        //
-    }
+        $kas = Kas::find($id);
+        if(!$kas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Kas  $kas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Kas $kas)
-    {
-        //
+        return response()->json($kas);
+
     }
 
     /**
@@ -67,9 +68,29 @@ class KasController extends Controller
      * @param  \App\Kas  $kas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kas $kas)
+    public function update(Request $request, $id)
     {
-        //
+        $kas = Kas::find($id);
+        if(!$kas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kas->keterangan = $request->keterangan;
+        $kas->tgl = $request->tgl;
+        $kas->jumlah = $request->jumlah;
+        $kas->jenis = $request->jenis;
+
+        $kas->save();
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil diupdate'
+        ],201);
+
+
+
     }
 
     /**
@@ -78,8 +99,23 @@ class KasController extends Controller
      * @param  \App\Kas  $kas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kas $kas)
+    public function destroy($id)
     {
-        //
+
+        $kas = Kas::find($id);
+        if(!$kas){
+            return response()->json([
+                'Status' => 'Failed',
+                'Message' => 'Data tidak ditemukan'
+            ],404);
+        }
+
+        $kas->delete();
+
+        return response()->json([
+            'Status' => 'Success',
+            'Message' => 'Data berhasil dihapus'
+        ],201);
+
     }
 }

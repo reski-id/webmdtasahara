@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Guru;
+use App\KalenderAkademik;
 use Illuminate\Http\Request;
 
-
-class GuruController extends Controller
+class KalenderAkademikController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $Guru = Guru::all();
-        return response()->json($Guru);
+        $kalakademik = KalenderAkademik::all();
+        return response()->json($kalakademik);
     }
 
 
@@ -28,18 +27,13 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        $Guru = new Guru;
+        $kalakademik = new KalenderAkademik;
 
-        $Guru->Nama = $request->Nama;
-        $Guru->JenisKelamin = $request->JenisKelamin;
-        $Guru->TempatLahir = $request->TempatLahir;
-        $Guru->Pendidikan = $request->Pendidikan;
-        $Guru->TanggalLahir = $request->TanggalLahir;
-        $Guru->Agama = $request->Agama;
-        $Guru->Alamat = $request->Alamat;
-        $Guru->NoHp = $request->NoHp;
+        $kalakademik->tgl_mulai = $request->tgl_mulai;
+        $kalakademik->tgl_selesai = $request->tgl_selesai;
+        $kalakademik->acara = $request->acara;
 
-        $Guru->save();
+        $kalakademik->save();
         return response()->json([
             'Status' => 'Success',
             'Message' => 'Data berhasil disimpan'
@@ -49,20 +43,20 @@ class GuruController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Guru  $Guru
+     * @param  \App\KalenderAkademik  $kalakademik
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $Guru = Guru::find($id);
-        if(!$Guru){
+        $kalakademik = KalenderAkademik::find($id);
+        if(!$kalakademik){
             return response()->json([
                 'Status' => 'Failed',
                 'Message' => 'Data tidak ditemukan'
             ],404);
         }
 
-        return response()->json($Guru);
+        return response()->json($kalakademik);
 
     }
 
@@ -70,56 +64,48 @@ class GuruController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Guru  $Guru
+     * @param  \App\KalenderAkademik  $kalakademik
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $Guru = Guru::find($id);
-        if(!$Guru){
+        $kalakademik = KalenderAkademik::find($id);
+        if(!$kalakademik){
             return response()->json([
                 'Status' => 'Failed',
                 'Message' => 'Data tidak ditemukan'
             ],404);
         }
 
-        $Guru->Nama = $request->Nama;
-        $Guru->JenisKelamin = $request->JenisKelamin;
-        $Guru->TempatLahir = $request->TempatLahir;
-        $Guru->Pendidikan = $request->Pendidikan;
-        $Guru->TanggalLahir = $request->TanggalLahir;
-        $Guru->Agama = $request->Agama;
-        $Guru->Alamat = $request->Alamat;
-        $Guru->NoHp = $request->NoHp;
-
-        $Guru->save();
+        $kalakademik->tgl_mulai = $request->tgl_mulai;
+        $kalakademik->tgl_selesai = $request->tgl_selesai;
+        $kalakademik->acara = $request->acara;
+        $kalakademik->save();
         return response()->json([
             'Status' => 'Success',
             'Message' => 'Data berhasil diupdate'
         ],201);
-
-
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Guru  $Guru
+     * @param  \App\KalenderAkademik  $kalakademik
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
-        $Guru = Guru::find($id);
-        if(!$Guru){
+        $kalakademik = KalenderAkademik::find($id);
+        if(!$kalakademik){
             return response()->json([
                 'Status' => 'Failed',
                 'Message' => 'Data tidak ditemukan'
             ],404);
         }
 
-        $Guru->delete();
+        $kalakademik->delete();
 
         return response()->json([
             'Status' => 'Success',
