@@ -27,6 +27,12 @@ class KalenderAkademikController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'acara' => 'required|string'
+        ]);
+
         $kalakademik = new KalenderAkademik;
 
         $kalakademik->tgl_mulai = $request->tgl_mulai;
@@ -69,6 +75,12 @@ class KalenderAkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'tgl_mulai' => 'date',
+            'tgl_selesai' => 'date',
+            'acara' => 'string'
+        ]);
+
         $kalakademik = KalenderAkademik::find($id);
         if(!$kalakademik){
             return response()->json([

@@ -27,6 +27,11 @@ class KriteriaPenilaianquranController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'kdpenilai' => 'required',
+            'kriteria' => 'required|string'
+        ]);
+
         $kriteria = new KriteriaPenilaianquran;
 
         $kriteria->kdpenilai = $request->kdpenilai;
@@ -68,6 +73,10 @@ class KriteriaPenilaianquranController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'kriteria' => 'string'
+        ]);
+
         $kriteria = KriteriaPenilaianquran::find($id);
         if(!$kriteria){
             return response()->json([

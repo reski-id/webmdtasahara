@@ -28,6 +28,18 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request,[
+            'Nama' => 'required|string',
+            'JenisKelamin' => 'required',
+            'TempatLahir' => 'required|string',
+            'Pendidikan' => 'required',
+            'TanggalLahir' => 'required|date',
+            'Agama' => 'required|string',
+            'Alamat' => 'required|string',
+            '$Guru->NoHp = $request->NoHp' => 'required|string',
+        ]);
+
         $Guru = new Guru;
 
         $Guru->Nama = $request->Nama;
@@ -75,6 +87,17 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'Nama' => 'string',
+            'JenisKelamin' => 'required',
+            'TempatLahir' => 'string',
+            'Pendidikan' => 'required',
+            'TanggalLahir' => 'date',
+            'Agama' => 'string',
+            'Alamat' => 'string',
+            '$Guru->NoHp = $request->NoHp' => 'string',
+        ]);
+
         $Guru = Guru::find($id);
         if(!$Guru){
             return response()->json([

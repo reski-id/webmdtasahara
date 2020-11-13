@@ -27,6 +27,15 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'nis' => 'required|integer',
+            'Nama' => 'required|string',
+            'TempatLahir' => 'required|string',
+            'TanggalLahir' => 'required|date',
+            'Agama' => 'required|string',
+            'Alamat' => 'required|string'
+        ]);
+
         $Siswa = new Siswa;
 
         $Siswa->nis = $request->nis;
@@ -73,6 +82,15 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nis' => 'integer',
+            'Nama' => 'string',
+            'TempatLahir' => 'string',
+            'TanggalLahir' => 'date',
+            'Agama' => 'string',
+            'Alamat' => 'string'
+        ]);
+
         $Siswa = Siswa::find($id);
         if(!$Siswa){
             return response()->json([

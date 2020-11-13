@@ -27,6 +27,16 @@ class OrtuController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'Nama' => 'required|string',
+            'JenisKelamin' => 'required',
+            'TempatLahir' => 'required|string',
+            'Pendidikan' => 'required',
+            'Agama' => 'required|string',
+            'Alamat' => 'required|string',
+            'NoHp' => 'required|string',
+        ]);
+
         $Ortu = new Ortu;
 
         $Ortu->Nama = $request->Nama;
@@ -74,6 +84,14 @@ class OrtuController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'Nama' => 'string',
+            'TempatLahir' => 'string',
+            'Agama' => 'string',
+            'Alamat' => 'string',
+            'NoHp' => 'string',
+        ]);
+
         $Ortu = Ortu::find($id);
         if(!$Ortu){
             return response()->json([

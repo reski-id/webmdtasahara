@@ -28,6 +28,12 @@ class AbsenController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'TglAbsen' => 'required',
+            'nis' => 'required|integer',
+            'KetAbsen' => 'string|required',
+        ]);
+
         $absen = new Absen;
 
         $absen->TglAbsen = $request->TglAbsen;

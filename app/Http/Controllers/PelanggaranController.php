@@ -27,6 +27,14 @@ class PelanggaranController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tanggal' => 'required|date',
+            'nis' => 'required|integer',
+            'jenispelanggara' => 'required|string',
+            'keterangan' => 'required|string',
+            'solusi' => 'required|string'
+        ]);
+
         $Pelanggaran = new Pelanggaran;
 
         $Pelanggaran->tanggal = $request->tanggal;
@@ -72,6 +80,14 @@ class PelanggaranController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'tanggal' => 'date',
+            'nis' => 'integer',
+            'jenispelanggara' => 'string',
+            'keterangan' => 'string',
+            'solusi' => 'string'
+        ]);
+
         $Pelanggaran = Pelanggaran::find($id);
         if(!$Pelanggaran){
             return response()->json([

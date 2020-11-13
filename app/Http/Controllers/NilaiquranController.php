@@ -28,6 +28,12 @@ class NilaiquranController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'kdkriteria' => 'required',
+            'nis' => 'required|integer',
+            'nilai' => 'required|string'
+        ]);
+
         $Nilaiquran = new Nilaiquran;
 
         $Nilaiquran->kdkriteria = $request->kdkriteria;
@@ -70,6 +76,11 @@ class NilaiquranController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nis' => 'integer',
+            'nilai' => 'string'
+        ]);
+
         $Nilaiquran = Nilaiquran::find($id);
         if(!$Nilaiquran){
             return response()->json([

@@ -28,6 +28,13 @@ class AcaraController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tanggal' => 'date|required',
+            'acara' => 'required|string',
+            'lokasi' => 'string|required',
+        ]);
+
+
         $Acara = new Acara;
 
         $Acara->tanggal = $request->tanggal;
@@ -70,6 +77,12 @@ class AcaraController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'tanggal' => 'date',
+            'acara' => 'string',
+            'lokasi' => 'string',
+        ]);
+
         $Acara = Acara::find($id);
         if(!$Acara){
             return response()->json([

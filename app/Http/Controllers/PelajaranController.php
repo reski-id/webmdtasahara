@@ -27,6 +27,11 @@ class PelajaranController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'KodePljrn' => 'required|string',
+            'NamaPljrn' => 'required|string'
+        ]);
+
         $Pelajaran = new Pelajaran;
 
         $Pelajaran->KodePljrn = $request->KodePljrn;
@@ -68,6 +73,11 @@ class PelajaranController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'KodePljrn' => 'string',
+            'NamaPljrn' => 'string'
+        ]);
+
         $Pelajaran = Pelajaran::find($id);
         if(!$Pelajaran){
             return response()->json([

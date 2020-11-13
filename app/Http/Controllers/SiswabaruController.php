@@ -27,6 +27,17 @@ class SiswabaruController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'idpendaftaran' => 'required|string',
+            'Nama' => 'required|string',
+            'TempatLahir' => 'required|string',
+            'TanggalLahir' => 'required|date',
+            'Agama' => 'required|string',
+            'namaOrtu' => 'required|string',
+            'Alamat' => 'required|string',
+            'nohpOrtu' => 'required|string'
+        ]);
+
         $Siswabaru = new Siswabaru;
 
         $Siswabaru->idpendaftaran = $request->idpendaftaran;
@@ -76,6 +87,17 @@ class SiswabaruController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'idpendaftaran' => 'string',
+            'Nama' => 'string',
+            'TempatLahir' => 'string',
+            'TanggalLahir' => 'date',
+            'Agama' => 'string',
+            'namaOrtu' => 'string',
+            'Alamat' => 'string',
+            'nohpOrtu' => 'string'
+        ]);
+
         $Siswabaru = Siswabaru::find($id);
         if(!$Siswabaru){
             return response()->json([

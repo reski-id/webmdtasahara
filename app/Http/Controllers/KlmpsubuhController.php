@@ -28,6 +28,10 @@ class KlmpsubuhController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'nama_kelompok' => 'required|string'
+        ]);
+
         $Klmpsubuh = new Klmpsubuh;
 
         $Klmpsubuh->nama_kelompok = $request->nama_kelompok;
@@ -40,8 +44,6 @@ class KlmpsubuhController extends Controller
     }
 
     /**
-     * `id`,
-  `nama_kelompok`,
      * Display the specified resource.
      *
      * @param  \App\Klmpsubuh  $Klmpsubuh
@@ -70,6 +72,10 @@ class KlmpsubuhController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nama_kelompok' => 'string'
+        ]);
+
         $Klmpsubuh = Klmpsubuh::find($id);
         if(!$Klmpsubuh){
             return response()->json([

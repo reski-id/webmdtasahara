@@ -28,6 +28,12 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'Kode_Pelajaran' => 'required',
+            'nis' => 'required|integer',
+            'nilai' => 'required|string'
+        ]);
+
         $Nilai = new Nilai;
 
         $Nilai->Kode_Pelajaran = $request->Kode_Pelajaran;
@@ -70,6 +76,11 @@ class NilaiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nis' => 'integer',
+            'nilai' => 'string'
+        ]);
+
         $Nilai = Nilai::find($id);
         if(!$Nilai){
             return response()->json([
