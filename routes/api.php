@@ -41,5 +41,4 @@ Route::resources([
     'uangmasuk' => 'UangmasukController',
 
 
-
 ]);
